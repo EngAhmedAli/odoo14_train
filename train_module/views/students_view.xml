@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+      <!-- Inherit Form View to Modify it -->
+      <record id="sales_services_inherit" model="ir.ui.view">
+          <field name="name">sales.services.inhertit</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+
+              <field name="partner_id" position="after">
+                  <field name="services_type"/>
+              </field>
+
+          </field>
+      </record>
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">view.student.form</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <form string="Students Information">
+                <sheet>
+                  <header>
+                    <field name="state" widget="statusbar"/>
+                  </header>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="student_sequence" readonly="True"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="2">
+                      <div>
+                        <field name="image" widget="image" class="oe_avatar oe_left" />
+                      </div>
+                      <br></br>
+                      <h2>
+                        <label for="name">Student Name</label>
+                        <field name="name" placeholder="Enter Student Name"/>
+                      </h2>
+                      <h2>
+                        <label for="uni_no">University N</label>
+                        <field name="uni_no" placeholder="Enter University No"/>
+                      </h2>
+                    </group>
+                    <group colspan="4" col="4">
+                      <field name="active"/>
+                      <field name="dob"/>
+                      <field name="age"  help="Student Age Will Calculate Automatically"/>
+                      <field name="gender"/>
+                      <field name="fdate"/>
+                      <field name="ldate"/>
+                        <field name="degree_id"/>
+                        <field name="quality_check" widget="priority"/>
+                      <field name="regfees"/>
+                      <field name="tutfees"/>
+                      <field name="totfees"/>
+                      <field name="ref"/>
+                      <field name="ref_link"/>
+                      <field name="responsible_id"/>
+                      <field name="phone"/>
+                      <field name="email"/>
+                    </group>
+                  <notebook>
+                    <page string="School Subject Result's">
+                      <field name="result_ids">
+                        <tree editale="top">
+                          <field name="subject_id"/>
+                          <field name="result"/>
+                        </tree>
+                        <form>
+                          <sheet>
+                            <group>
+                              <field name="subject_id"/>
+                              <field name="result"/>
+                            </group>
+                          </sheet>
+                        </form>
+                      </field>
+                    </page>
+                    <page string="Hobbies Information's">
+                      <separator string="Hobbies Information" colspan="4"/>
+                      <field name="hobbies_ids" widget="many2many_tags"/>
+                    </page>
+                  </notebook>
+                  <separator string="Health Issues And Notes" colspan="4"/>
+                      <field name="health_issues" nolabel="1"/>
+                      <field name="health_notes" attrs="{'invisible':[('health_issues','=','no')]}"/>
+                  <separator string="Template" colspan="4"/>
+                      <field name="template" nolabel="1"/>
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">view.student.tree</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <tree string="Students Information">
+              <field name="name"/>
+              <field name="active"/>
+              <field name="dob"/>
+              <field name="gender"/>
+              <field name="health_issues"/>
+              <field name="tutfees" sum="Total Fees"/>
+            </tree>
+        </field>
+    </record>
+    <record id="students_action_view" model="ir.actions.act_window">
+        <field name="name">students Registration</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click To Add New Student
+          </p>
+        </field>
+    </record>
+    <record id="students_action_view_male" model="ir.actions.act_window">
+        <field name="name">Insert Male Student</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('gender','=','male')]</field>
+        <field name="context">{'default_gender':'male','default_name':'Adam'}</field>
+    </record>
+    <record id="students_action_view_female" model="ir.actions.act_window">
+        <field name="name">Insert Female Student</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('gender','=','female')]</field>
+        <field name="context">{'default_gender':'female','default_name':'Eilien'}</field>
+    </record>
+    <record id="view_student_search" model="ir.ui.view">
+       <field name="name">view.student.search</field>
+       <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <search string="Student's Search">
+              <field name="name"/>
+              <field name="active"/>
+              <field name="gender"/>
+              <group string="Filter By">
+              <filter name="filter_by_male" string="By Male" domain="[('gender','=','male')]"/>
+              <filter name="filter_by_female" string="By Female" domain="[('gender','=','female')]"/>
+              </group>
+              <group string="Group By">
+                <filter name="group_gender" string="Gender" context="{'group_by':'gender'}"/>
+              </group>
+
+        </search>
+       </field>
+    </record>
+      <record id="degree_detail_action" model="ir.actions.act_window">
+        <field name="name">Degree Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">degree.detail</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+      <record id="dorf_information_action" model="ir.actions.act_window">
+        <field name="name">departments or faculties</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dorf.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+      <record id="dord_information_action" model="ir.actions.act_window">
+        <field name="name">ivisions or departments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dord.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="students_main_menu" name="Students Registration" web_icon="train_module,static\description\icon.png "
+              sequence="500"/>
+    <menuitem id="students_sub_menu" name="Students Registration" parent="students_main_menu" sequence="1"/>
+    <menuitem id="insert_student_menu" name="Insert Student Data" parent="students_sub_menu"
+              action="students_action_view" sequence="2"/>
+    <menuitem id="insert_male_student_menu" name="Insert Male Student" parent="students_sub_menu"
+              action="students_action_view_male" sequence="3"/>
+    <menuitem id="insert_female_student_menu" name="Insert Female Student" parent="students_sub_menu"
+              action="students_action_view_female" sequence="4"/>
+      <menuitem id="degree_sub_menu" name="Degree Details" parent="students_main_menu" sequence="2"/>
+      <menuitem id="degree_student_menu" name="Degree Information" parent="degree_sub_menu"
+              action="degree_detail_action" sequence="5"/>
+      <menuitem id="faculties_student_menu" name="Departments or Faculties" parent="degree_sub_menu"
+              action="dorf_information_action" sequence="6"/>
+      <menuitem id="ivisions_student_menu" name="Ivisions or Departments" parent="degree_sub_menu"
+              action="dord_information_action" sequence="7"/>
+  </data>
+</odoo>

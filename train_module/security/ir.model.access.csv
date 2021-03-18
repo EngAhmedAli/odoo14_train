@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_student_manager_id,access_student_manager,model_student_student,base.group_user,1,1,1,1
+access_schoolresult_result_manager_id,access_schoolresult_result_manager,model_schoolresult_result,base.group_user,1,1,1,1
+access_schoolresult_subject_manager_id,access_schoolresult_subject_manager,model_schoolresult_subject,base.group_user,1,1,1,1
+
+
+access_degree_detail_manager_id,access_degree_detail_manager,model_degree_detail,base.group_user,1,1,1,1
+access_dorf_information_manager_id,access_dorf_information_manager,model_dorf_information,base.group_user,1,1,1,1
+access_dord_information_manager_id,access_dord_information_manager,model_dord_information,base.group_user,1,1,1,1
